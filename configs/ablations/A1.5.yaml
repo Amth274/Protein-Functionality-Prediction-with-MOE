@@ -1,0 +1,28 @@
+experiment:
+  id: A1.5
+  description: Medium Experts - 4 experts
+  baseline: A1.1
+model:
+  esm2_model: facebook/esm2_t6_8M_UR50D
+  num_experts: 4
+  hidden_dim: 256
+  dropout: 0.1
+  freeze_backbone: false
+data:
+  train_dir: data/raw/Train_split
+  test_dir: data/raw/Test_split
+  max_sequence_length: 4096
+  min_samples: 10
+  support_frac: 0.8
+  num_workers: 2
+training:
+  task_epochs: 1
+  batch_size: 4
+  task_learning_rate: 1.0e-05
+  weight_decay: 0.01
+  grad_clip_norm: 1.0
+  mixed_precision: true
+  seed: 42
+logging:
+  log_interval: 1
+  save_interval: 10

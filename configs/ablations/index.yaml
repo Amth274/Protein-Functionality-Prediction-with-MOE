@@ -1,0 +1,122 @@
+total_experiments: 27
+studies:
+  A1: Architecture Ablations (MoE Components)
+  A2: Expert Capacity Ablations
+  A3: Backbone Model Ablations
+  A4: Training Strategy Ablations
+  A6: Regularization and Optimization
+  A7: Data Efficiency
+experiments:
+- id: A1.1
+  description: Baseline - 8 experts, 256 dim
+  modifications: {}
+- id: A1.2
+  description: Single Expert - No specialization
+  modifications:
+    model.num_experts: 1
+- id: A1.4
+  description: Few Experts - 2 experts
+  modifications:
+    model.num_experts: 2
+- id: A1.5
+  description: Medium Experts - 4 experts
+  modifications:
+    model.num_experts: 4
+- id: A1.6
+  description: Many Experts - 16 experts
+  modifications:
+    model.num_experts: 16
+- id: A1.7
+  description: Huge Experts - 32 experts
+  modifications:
+    model.num_experts: 32
+- id: A2.2
+  description: Tiny Experts - 64 dim
+  modifications:
+    model.hidden_dim: 64
+- id: A2.3
+  description: Small Experts - 128 dim
+  modifications:
+    model.hidden_dim: 128
+- id: A2.4
+  description: Large Experts - 512 dim
+  modifications:
+    model.hidden_dim: 512
+- id: A2.5
+  description: Huge Experts - 1024 dim
+  modifications:
+    model.hidden_dim: 1024
+- id: A3.2
+  description: Frozen ESM2-8M backbone
+  modifications:
+    model.freeze_backbone: true
+- id: A3.3
+  description: ESM2-35M backbone
+  modifications:
+    model.esm2_model: facebook/esm2_t12_35M_UR50D
+- id: A3.4
+  description: ESM2-150M backbone
+  modifications:
+    model.esm2_model: facebook/esm2_t30_150M_UR50D
+- id: A3.5
+  description: ESM2-650M backbone
+  modifications:
+    model.esm2_model: facebook/esm2_t33_650M_UR50D
+    training.batch_size: 2
+- id: A3.6
+  description: Frozen ESM2-650M backbone
+  modifications:
+    model.esm2_model: facebook/esm2_t33_650M_UR50D
+    model.freeze_backbone: true
+    training.batch_size: 2
+- id: A4.3
+  description: More Query - 50% support split
+  modifications:
+    data.support_frac: 0.5
+- id: A4.4
+  description: Balanced - 70% support split
+  modifications:
+    data.support_frac: 0.7
+- id: A4.5
+  description: Less Query - 90% support split
+  modifications:
+    data.support_frac: 0.9
+- id: A4.6
+  description: Multi-Epoch - 3 epochs per task
+  modifications:
+    training.task_epochs: 3
+- id: A6.2
+  description: No Dropout
+  modifications:
+    model.dropout: 0.0
+- id: A6.3
+  description: High Dropout - 0.3
+  modifications:
+    model.dropout: 0.3
+- id: A6.4
+  description: No Weight Decay
+  modifications:
+    training.weight_decay: 0.0
+- id: A6.5
+  description: Strong Weight Decay - 0.1
+  modifications:
+    training.weight_decay: 0.1
+- id: A6.6
+  description: No Gradient Clipping
+  modifications:
+    training.grad_clip_norm: null
+- id: A7.2
+  description: 25% Training Data - 43 tasks
+  modifications:
+    training.seed: 43
+    experiment.train_fraction: 0.25
+- id: A7.3
+  description: 50% Training Data - 86 tasks
+  modifications:
+    training.seed: 44
+    experiment.train_fraction: 0.5
+- id: A7.4
+  description: 75% Training Data - 130 tasks
+  modifications:
+    training.seed: 45
+    experiment.train_fraction: 0.75
